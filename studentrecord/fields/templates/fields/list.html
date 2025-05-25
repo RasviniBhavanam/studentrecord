@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Filtered Student List</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            padding: 30px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #3f51b5;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+        }
+        label {
+            flex: 1 0 100px;
+            font-weight: 600;
+            align-self: center;
+        }
+        input {
+            flex: 2 0 200px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            flex: 1 0 100%;
+            padding: 10px 0;
+            background-color: #3f51b5;
+            color: white;
+            font-size: 1em;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #303f9f;
+        }
+        ul {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+            list-style: none;
+        }
+        ul li {
+            padding: 12px 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 1.1em;
+        }
+        ul li:last-child {
+            border-bottom: none;
+        }
+        .back-home {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .back-home a {
+            display: inline-block;
+            background-color: #3f51b5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .back-home a:hover {
+            background-color: #303f9f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Filtered Student List</h1>
+
+        <form method="get">
+            <label for="student_class">Class:</label>
+            <input type="text" id="student_class" name="student_class" value="{{ request.GET.student_class }}">
+
+            <label for="min_marks">Min Marks:</label>
+            <input type="number" id="min_marks" name="min_marks" value="{{ request.GET.min_marks }}">
+
+            <label for="max_marks">Max Marks:</label>
+            <input type="number" id="max_marks" name="max_marks" value="{{ request.GET.max_marks }}">
+
+            <button type="submit">Filter</button>
+        </form>
+
+        <ul>
+            {% for student in students %}
+                <li>{{ student.name }} — Class: {{ student.student_class }} — Marks: {{ student.marks }}</li>
+            {% empty %}
+                <li>No students found matching the criteria.</li>
+            {% endfor %}
+        </ul>
+
+        <div class="back-home">
+            <a href="{% url 'students:home' %}">← Back to Home</a>
+        </div>
+    </div>
+
+</body>
+</html>
